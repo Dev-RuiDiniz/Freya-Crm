@@ -72,7 +72,7 @@ O Freya CRM é um sistema comercial e de relacionamento com clientes, separado d
 - **O que ficou pendente:**
   - Configurar Prisma + schema CRM + migration + seed
   - Configurar Supabase Auth
-  - Configurar RBAC com 5 perfis
+  - Configurar RBAC com 2 perfis (ADMIN, VENDEDOR)
   - Configurar Vitest e Playwright
   - Implementar funcionalidades do MVP (Sprints 1-5)
 - **Evidências no repositório:** `package.json`, `src/app/(protected)/crm/page.tsx`, `components.json`, `.env.example`, build e lint passando.
@@ -111,7 +111,7 @@ O Freya CRM é um sistema comercial e de relacionamento com clientes, separado d
 | 07/07/2026 | Stack Next.js + Prisma + PostgreSQL/Supabase | Reaproveitamento de padrões do Tyr_Controle | Menor curva de aprendizado, componentes compartilháveis | Planejada |
 | 07/07/2026 | Prefixo `Crm` em entidades Prisma | Preservar separação de domínios Freya vs Tyr | Evita colisão de models e acoplamento | Planejada |
 | 07/07/2026 | Server Actions no MVP (sem API REST) | Simplicidade e velocidade de entrega | Pode evoluir para API interna se extraído | Planejada |
-| 07/07/2026 | RBAC com 5 perfis comerciais | Controle de acesso por função comercial | VENDEDOR vê apenas próprios dados; ADMIN acesso total | Planejada |
+| 07/07/2026 | RBAC com 2 perfis iniciais (ADMIN, VENDEDOR) | Simplificação para MVP | GESTOR_COMERCIAL, CS e LEITURA adicionados no futuro | Planejada |
 | 07/07/2026 | Soft delete em entidades principais | Rastreabilidade e integridade de dados | `deleted_at` em leads, empresas, contatos, oportunidades | Planejada |
 | 07/07/2026 | Auditoria via `crm_audit_logs` | Rastreabilidade de ações críticas | Log de conversão, exclusão, status final, responsável | Planejada |
 
@@ -140,7 +140,7 @@ O Freya CRM é um sistema comercial e de relacionamento com clientes, separado d
 | Configurar Vitest | Testes | Alta | Sprint 0 |
 | Configurar Playwright | Testes | Alta | Sprint 0 |
 | Configurar Supabase Auth | Autenticação | Alta | Sprint 0 |
-| Criar RBAC com 5 perfis | Autorização | Alta | Sprint 0 |
+| Criar RBAC com 2 perfis (ADMIN, VENDEDOR) | Autorização | Alta | Sprint 0 |
 | Definir política de retenção LGPD | Segurança | Alta | Antes de produção |
 | Remover/rotacionar credenciais do Tyr | Segurança | Alta | Antes de produção |
 | Configurar CI/CD | Infraestrutura | Média | Fase 5 |
@@ -184,7 +184,7 @@ O Freya CRM é um sistema comercial e de relacionamento com clientes, separado d
 4. Configurar Prisma com PostgreSQL/Supabase e criar schema inicial.
 5. Criar migration inicial e seed de pipeline padrão.
 6. Configurar Vitest e Playwright.
-7. Configurar Supabase Auth e RBAC com 5 perfis comerciais.
+7. Configurar Supabase Auth e RBAC com 2 perfis (ADMIN, VENDEDOR).
 8. Criar menu CRM vazio e layout protegido.
 9. Validar build, lint e testes.
 10. Avançar para Sprint 1 (Leads, Empresas e Contatos).

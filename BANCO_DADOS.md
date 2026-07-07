@@ -653,7 +653,7 @@ npx prisma db seed
 
 ### Controle de acesso
 
-- RBAC por perfil (ADMIN, GESTOR_COMERCIAL, VENDEDOR, CS, LEITURA).
+- RBAC por perfil (ADMIN, VENDEDOR). GESTOR_COMERCIAL, CS e LEITURA serão adicionados no futuro.
 - VENDEDOR vê apenas leads/oportunidades próprios.
 - Validação de permissão em todas as Server Actions.
 

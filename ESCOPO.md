@@ -31,10 +31,9 @@ O Freya resolve essa dor oferecendo:
 | Perfil | Descrição | Permissões |
 |---|---|---|
 | `ADMIN` | Administrador geral | Acesso total, configurações, usuários, integrações e auditoria |
-| `GESTOR_COMERCIAL` | Gestor do time comercial | Gerencia funis, equipes, metas, relatórios e oportunidades |
-| `VENDEDOR` | Usuário comercial | Gerencia leads, contatos, atividades e oportunidades próprias |
-| `CS` | Customer Success / relacionamento | Acompanha contas convertidas e pós-venda |
-| `LEITURA` | Visualização executiva | Acesso somente leitura a dashboards e relatórios |
+| `VENDEDOR` | Usuário comercial | Gerencia leads, contatos, atividades e oportunidades próprios |
+
+> **Observação:** Os perfis `GESTOR_COMERCIAL`, `CS` e `LEITURA` serão adicionados no futuro, conforme evolução do projeto.
 
 ---
 
@@ -266,7 +265,7 @@ O Freya resolve essa dor oferecendo:
 - A stack será Next.js + TypeScript + Prisma + PostgreSQL/Supabase, reaproveitando padrões do Tyr_Controle.
 - O projeto usa monorepo Turborepo com apps/web (Next.js), packages/ui (componentes) e packages/lib (regras de negócio).
 - A autenticação será via Supabase Auth.
-- O RBAC terá 5 perfis comerciais (ADMIN, GESTOR_COMERCIAL, VENDEDOR, CS, LEITURA).
+- O RBAC terá inicialmente 2 perfis (ADMIN, VENDEDOR). Os perfis GESTOR_COMERCIAL, CS e LEITURA serão adicionados no futuro.
 - O Freya usará prefixo `Crm` em entidades Prisma para preservar separação de domínios.
 - A integração com o Tyr no MVP será direta via services/Server Actions se no mesmo repositório/banco.
 - O deploy será em Vercel com Supabase/PostgreSQL.

@@ -114,7 +114,7 @@ Migração do projeto de estrutura plana para monorepo Turborepo com apps/web (N
 3. Criar migration inicial
 4. Criar seed de pipeline padrão
 5. Configurar Supabase Auth
-6. Configurar RBAC com 5 perfis
+6. Configurar RBAC com 2 perfis (ADMIN, VENDEDOR)
 7. Configurar Vitest e Playwright
 
 ---
@@ -243,7 +243,7 @@ Inicialização do projeto Next.js com TypeScript, Tailwind CSS e shadcn/ui no r
 3. Criar migration inicial
 4. Criar seed de pipeline padrão
 5. Configurar Supabase Auth
-6. Configurar RBAC com 5 perfis
+6. Configurar RBAC com 2 perfis (ADMIN, VENDEDOR)
 7. Configurar Vitest e Playwright
 8. Criar menu CRM e layout protegido
 
@@ -346,7 +346,7 @@ Criação da governança e documentação estrutural do repositório Freya-Crm. 
 | Criar 7 arquivos de governança na raiz | Estabelecer rastreabilidade e padrões antes de codificar | Projeto com documentação estrutural completa |
 | Marcar stack como planejada/pendente | Repositório sem código; não inventar informações | Transparência sobre o estado real |
 | Usar prefixo `Crm` em entidades | Preservar separação de domínios Freya vs Tyr | Evita acoplamento e colisão de models |
-| RBAC com 5 perfis comerciais | Controle de acesso por função | ADMIN, GESTOR_COMERCIAL, VENDEDOR, CS, LEITURA |
+| RBAC com 2 perfis iniciais (ADMIN, VENDEDOR) | Simplificação para MVP | GESTOR_COMERCIAL, CS e LEITURA no futuro |
 | Conversão Freya → Tyr no MVP | Fechar ciclo comercial | Sprint 4 obrigatória |
 
 ---
@@ -368,7 +368,7 @@ Criação da governança e documentação estrutural do repositório Freya-Crm. 
 3. Configurar Prisma com PostgreSQL/Supabase e criar schema inicial.
 4. Criar migration inicial e seed de pipeline padrão.
 5. Configurar Vitest e Playwright.
-6. Configurar Supabase Auth e RBAC com 5 perfis.
+6. Configurar Supabase Auth e RBAC com 2 perfis (ADMIN, VENDEDOR).
 7. Criar menu CRM vazio e layout protegido.
 8. Validar build, lint e testes.
 9. Avançar para Sprint 1 (Leads, Empresas e Contatos).

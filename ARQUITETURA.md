@@ -354,10 +354,9 @@ flowchart TD
 | Perfil | Descrição | Permissões principais |
 |---|---|---|
 | `ADMIN` | Administrador geral | Acesso total, configurações, usuários, integrações e auditoria |
-| `GESTOR_COMERCIAL` | Gestor do time comercial | Gerencia funis, equipes, metas, relatórios e oportunidades |
 | `VENDEDOR` | Usuário comercial | Gerencia leads, contatos, atividades e oportunidades próprias |
-| `CS` | Customer Success | Acompanha contas convertidas e pós-venda |
-| `LEITURA` | Visualização executiva | Acesso somente leitura a dashboards e relatórios |
+
+> **Observação:** Os perfis `GESTOR_COMERCIAL`, `CS` e `LEITURA` serão adicionados no futuro.
 
 ### Proteção de rotas
 
@@ -432,4 +431,4 @@ npx prisma db seed        # executar seeds
 | 07/07/2026 | Stack baseada em Next.js + Prisma + PostgreSQL | Reaproveitamento de padrões do Tyr_Controle | Menor curva de aprendizado, componentes compartilháveis |
 | 07/07/2026 | Prefixo `Crm` em entidades Prisma | Preservar separação de domínios Freya vs Tyr | Evita colisão de models e acoplamento |
 | 07/07/2026 | Server Actions no MVP (sem API REST separada) | Simplicidade e velocidade de entrega | Pode evoluir para API interna se Freya for extraído |
-| 07/07/2026 | RBAC com 5 perfis comerciais | Necessidade de controle de acesso por função | VENDEDOR vê apenas próprios dados; ADMIN acesso total |
+| 07/07/2026 | RBAC com 2 perfis iniciais (ADMIN, VENDEDOR) | Simplificação para MVP | GESTOR_COMERCIAL, CS e LEITURA adicionados no futuro |

@@ -80,7 +80,7 @@ Tarefas:
 - [ ] Criar schema Prisma inicial com entidades CRM
 - [ ] Criar migration inicial
 - [ ] Criar seed de pipeline padrão e motivos de perda
-- [ ] Criar permissões CRM (RBAC com 5 perfis)
+- [ ] Criar permissões CRM (RBAC com 2 perfis: ADMIN, VENDEDOR)
 - [ ] Criar menu CRM vazio
 - [ ] Configurar layout protegido para rotas `/crm`
 - [x] Validar build, lint e testes

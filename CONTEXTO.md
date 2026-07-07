@@ -8,7 +8,7 @@
 
 ## 1. Resumo Executivo
 
-O Freya CRM é um sistema comercial e de relacionamento com clientes, separado do Tyr ERP (sistema operacional). O projeto está em fase de **planejamento e governança inicial** — o repositório possui apenas o documento de escopo (`escopo-freya-crm.md`) e os arquivos de governança recém-criados. Não há código, `package.json`, schema Prisma, migrations ou testes implementados. O principal objetivo técnico atual é inicializar a base do projeto (Next.js + Prisma + PostgreSQL) e configurar o ambiente de desenvolvimento. Os principais riscos são: integração com Tyr ERP não implementada, credenciais em documentação do Tyr (risco herdado), e ausência de política LGPD definida.
+O Freya CRM é um sistema comercial e de relacionamento com clientes, separado do Tyr ERP (sistema operacional). O projeto teve a base Next.js inicializada com TypeScript, Tailwind CSS e shadcn/ui. A estrutura de pastas do CRM foi criada e a página placeholder está funcionando. Prisma, Supabase Auth, RBAC, testes e funcionalidades CRM ainda não foram implementados. O principal objetivo técnico atual é configurar Prisma + Supabase Auth + RBAC (restante da Sprint 0). Os principais riscos são: integração com Tyr ERP não implementada, credenciais em documentação do Tyr (risco herdado), e ausência de política LGPD definida.
 
 ---
 
@@ -16,18 +16,45 @@ O Freya CRM é um sistema comercial e de relacionamento com clientes, separado d
 
 | Área | Status | Observações |
 |---|---|---|
-| Backend | PENDENTE | Sem código; stack planejada: Next.js Server Actions + Prisma |
-| Frontend | PENDENTE | Sem código; stack planejada: React + Tailwind + shadcn/ui |
+| Backend | EM DESENVOLVIMENTO | Next.js inicializado; Server Actions e Prisma pendentes |
+| Frontend | EM DESENVOLVIMENTO | Next.js + Tailwind + shadcn/ui configurados; estrutura de pastas CRM criada; páginas pendentes |
 | Banco de dados | PENDENTE | Sem schema; planejado: PostgreSQL/Supabase + Prisma |
 | Testes | PENDENTE | Sem configuração; planejado: Vitest + Playwright |
 | Infraestrutura | PENDENTE | Sem Docker, CI/CD ou observabilidade; deploy planejado: Vercel |
-| Documentação | EM DESENVOLVIMENTO | Governança criada (AGENTS, ARQUITETURA, BANCO, ESCOPO, ROADMAP); CONTEXTO e RELATORIO em criação |
+| Documentação | ATUALIZADA | Governança completa + documentação de inicialização |
 | Segurança | PENDENTE | Credenciais em docs do Tyr a remover; LGPD a definir |
 | Integração Tyr | PENDENTE | Sem implementação; planejada para Sprint 4 |
 
 ---
 
 ## 3. Histórico de Desenvolvimento
+
+### 07/07/2026 — Inicialização do Projeto Next.js
+
+- **O que foi analisado:** Repositório com governança criada; decisão de projeto independente no mesmo Supabase do Tyr.
+- **O que foi decidido:** Inicializar Next.js com TypeScript, Tailwind CSS, shadcn/ui; criar estrutura de pastas do CRM; página placeholder.
+- **O que foi criado:**
+  - `package.json` (Next.js 16.2.10, React 19.2.4, TypeScript, Tailwind v4)
+  - `tsconfig.json`, `next.config.ts`, `eslint.config.mjs`, `postcss.config.mjs`
+  - `components.json` (shadcn/ui configurado)
+  - `src/components/ui/button.tsx` (componente shadcn/ui)
+  - `src/lib/utils.ts` (função `cn`)
+  - `src/app/(protected)/crm/page.tsx` (página placeholder do CRM)
+  - `src/app/page.tsx` (redirect para `/crm`)
+  - `.env.example` (placeholders Supabase + Prisma)
+  - `.gitignore` atualizado (permite `.env.example`)
+  - Estrutura de pastas: `src/app/(auth)`, `src/app/(protected)/crm/*`, `src/app/actions`, `src/components/crm/*`, `src/lib/crm`
+  - `README.md` atualizado com stack, comandos e estrutura
+- **O que foi alterado:** `src/app/layout.tsx` (metadata e lang pt-BR), `src/app/page.tsx` (redirect), `README.md`, `.gitignore`
+- **O que ficou pendente:**
+  - Configurar Prisma + schema CRM + migration + seed
+  - Configurar Supabase Auth
+  - Configurar RBAC com 5 perfis
+  - Configurar Vitest e Playwright
+  - Implementar funcionalidades do MVP (Sprints 1-5)
+- **Evidências no repositório:** `package.json`, `src/app/(protected)/crm/page.tsx`, `components.json`, `.env.example`, build e lint passando.
+
+---
 
 ### 07/07/2026 — Criação da Governância e Documentação Estrutural
 

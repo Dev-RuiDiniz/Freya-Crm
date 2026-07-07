@@ -31,6 +31,8 @@ O `AGENTS.md` define oficialmente:
 - Nunca deixar o projeto em estado quebrado.
 - Sempre registrar decisões relevantes no `CONTEXTO.md`.
 - Sempre atualizar o `RELATORIO.md` ao final de cada sessão.
+- Sempre atualizar o `ESCOPO.md` quando houver mudança de requisito, regra de negócio ou limite do projeto.
+- Sempre atualizar o `ROADMAP.md` quando houver mudança de fase, épico, prioridade, tarefa ou status de implementação.
 
 ---
 
@@ -150,7 +152,7 @@ npm run test:e2e     # testes E2E (Playwright)
 npm run build        # build de produção
 ```
 
-> **Observação:** Os comandos acima são os esperados conforme o escopo. Ainda não há `package.json` no repositório. `PENDENTE DE VALIDAÇÃO` até que o projeto seja inicializado.
+> **Observação:** O projeto foi inicializado com Next.js 16.2.10. Vitest e Playwright ainda não foram configurados. `PENDENTE DE VALIDAÇÃO` para testes.
 
 ### 5.4 Comandos de banco (Prisma)
 

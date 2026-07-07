@@ -24,6 +24,101 @@ Cada entrada deve conter:
 
 ---
 
+## 2026-07-07 — Registro do Dia (Migração Turborepo)
+
+### 1. Resumo
+
+Migração do projeto de estrutura plana para monorepo Turborepo com apps/web (Next.js), packages/ui (componentes shadcn/ui) e packages/lib (regras de negócio CRM). Build e lint validados com turbo.
+
+---
+
+### 2. Tarefas Executadas
+
+- [x] Criar package.json raiz com workspaces e turbo
+- [x] Criar turbo.json com tasks dev, build, lint, test
+- [x] Mover app Next.js para apps/web/
+- [x] Criar packages/ui (@repo/ui) com Button, cn() e index.ts
+- [x] Criar packages/lib (@repo/lib) com index.ts placeholder
+- [x] Ajustar tsconfig.json da app com paths @repo/ui e @repo/lib
+- [x] Ajustar components.json do shadcn para apontar para @repo/ui
+- [x] Criar eslint.config.mjs para packages/ui e packages/lib
+- [x] Atualizar .gitignore para monorepo
+- [x] Limpar arquivos antigos da raiz
+- [x] Validar npm install, npm run build, npm run lint
+- [x] Atualizar documentação (README, ESCOPO, ROADMAP, CONTEXTO, RELATORIO)
+
+---
+
+### 3. Arquivos Criados ou Modificados
+
+| Arquivo | Ação | Descrição |
+|---|---|---|
+| `package.json` | Modificado | Workspace root com turbo e npm workspaces |
+| `turbo.json` | Criado | Configuração Turborepo (dev, build, lint, test) |
+| `.gitignore` | Modificado | node_modules em todos os níveis, .turbo/ |
+| `apps/web/package.json` | Criado | @freya-crm/web com deps Next.js + @repo/ui + @repo/lib |
+| `apps/web/tsconfig.json` | Criado | Paths @/*, @repo/ui, @repo/lib |
+| `apps/web/components.json` | Modificado | Aliases apontando para @repo/ui e @repo/lib |
+| `packages/ui/package.json` | Criado | @repo/ui com Button, cn, cva, clsx, tailwind-merge |
+| `packages/ui/tsconfig.json` | Criado | Config TypeScript do package UI |
+| `packages/ui/eslint.config.mjs` | Criado | Config ESLint do package UI |
+| `packages/ui/src/index.ts` | Criado | Export barrel (cn, Button, buttonVariants) |
+| `packages/ui/src/utils.ts` | Criado | Função cn() |
+| `packages/ui/src/button.tsx` | Criado | Componente Button shadcn/ui |
+| `packages/lib/package.json` | Criado | @repo/lib placeholder |
+| `packages/lib/tsconfig.json` | Criado | Config TypeScript do package lib |
+| `packages/lib/eslint.config.mjs` | Criado | Config ESLint do package lib |
+| `packages/lib/src/index.ts` | Criado | Export placeholder (CRM_VERSION) |
+| `README.md` | Modificado | Estrutura monorepo, comandos turbo |
+| `ESCOPO.md` | Modificado | Premissa de monorepo Turborepo |
+| `ROADMAP.md` | Modificado | Tarefa de migração Turborepo marcada como concluída |
+| `CONTEXTO.md` | Modificado | Resumo, estado e histórico atualizados |
+
+---
+
+### 4. Testes
+
+| Comando | Resultado | Observações |
+|---|---|---|
+| `npm install` | Passou | 601 pacotes |
+| `npm run build` | Passou | 3 packages, 3 rotas estáticas |
+| `npm run lint` | Passou | 5 tasks (3 packages) |
+
+---
+
+### 5. Documentação Atualizada
+
+- `README.md` — Stack e estrutura monorepo
+- `ESCOPO.md` — Premissa de monorepo Turborepo
+- `ROADMAP.md` — Tarefa de migração concluída
+- `CONTEXTO.md` — Resumo, estado e histórico
+- `RELATORIO.md` — Este registro
+
+---
+
+### 6. Decisões Tomadas
+
+| Decisão | Motivo | Impacto |
+|---|---|---|
+| Turborepo + npm workspaces | Padronizar estrutura para crescer | apps/web, packages/ui, packages/lib |
+| @repo/ui para componentes | Reutilização de componentes shadcn/ui | Button e cn movidos para package |
+| @repo/lib para regras de negócio | Separação de lógica CRM | Placeholder para schemas e queries |
+| ESLint config por package | Turborepo exige config em cada package | eslint.config.mjs em ui e lib |
+
+---
+
+### 7. Próximos Passos
+
+1. Configurar Prisma com PostgreSQL/Supabase
+2. Criar schema Prisma com entidades CRM
+3. Criar migration inicial
+4. Criar seed de pipeline padrão
+5. Configurar Supabase Auth
+6. Configurar RBAC com 5 perfis
+7. Configurar Vitest e Playwright
+
+---
+
 ## 2026-07-07 — Registro do Dia (Inicialização Next.js)
 
 ### 1. Resumo

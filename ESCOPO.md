@@ -264,6 +264,7 @@ O Freya resolve essa dor oferecendo:
 ## 10. Premissas
 
 - A stack será Next.js + TypeScript + Prisma + PostgreSQL/Supabase, reaproveitando padrões do Tyr_Controle.
+- O projeto usa monorepo Turborepo com apps/web (Next.js), packages/ui (componentes) e packages/lib (regras de negócio).
 - A autenticação será via Supabase Auth.
 - O RBAC terá 5 perfis comerciais (ADMIN, GESTOR_COMERCIAL, VENDEDOR, CS, LEITURA).
 - O Freya usará prefixo `Crm` em entidades Prisma para preservar separação de domínios.

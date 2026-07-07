@@ -8,7 +8,7 @@
 
 ## 1. Resumo Executivo
 
-O Freya CRM é um sistema comercial e de relacionamento com clientes, separado do Tyr ERP (sistema operacional). O projeto teve a base Next.js inicializada com TypeScript, Tailwind CSS e shadcn/ui. A estrutura de pastas do CRM foi criada e a página placeholder está funcionando. Prisma, Supabase Auth, RBAC, testes e funcionalidades CRM ainda não foram implementados. O principal objetivo técnico atual é configurar Prisma + Supabase Auth + RBAC (restante da Sprint 0). Os principais riscos são: integração com Tyr ERP não implementada, credenciais em documentação do Tyr (risco herdado), e ausência de política LGPD definida.
+O Freya CRM é um sistema comercial e de relacionamento com clientes, separado do Tyr ERP (sistema operacional). O projeto foi migrado para monorepo Turborepo com apps/web (Next.js), packages/ui (componentes shadcn/ui) e packages/lib (regras de negócio CRM). A estrutura de pastas do CRM foi criada e a página placeholder está funcionando. Build e lint passando com turbo. Prisma, Supabase Auth, RBAC, testes e funcionalidades CRM ainda não foram implementados. O principal objetivo técnico atual é configurar Prisma + Supabase Auth + RBAC (restante da Sprint 0). Os principais riscos são: integração com Tyr ERP não implementada, credenciais em documentação do Tyr (risco herdado), e ausência de política LGPD definida.
 
 ---
 
@@ -16,8 +16,8 @@ O Freya CRM é um sistema comercial e de relacionamento com clientes, separado d
 
 | Área | Status | Observações |
 |---|---|---|
-| Backend | EM DESENVOLVIMENTO | Next.js inicializado; Server Actions e Prisma pendentes |
-| Frontend | EM DESENVOLVIMENTO | Next.js + Tailwind + shadcn/ui configurados; estrutura de pastas CRM criada; páginas pendentes |
+| Backend | EM DESENVOLVIMENTO | Next.js em monorepo Turborepo; Server Actions e Prisma pendentes |
+| Frontend | EM DESENVOLVIMENTO | Next.js + Tailwind + shadcn/ui em apps/web; packages/ui com Button e cn; páginas pendentes |
 | Banco de dados | PENDENTE | Sem schema; planejado: PostgreSQL/Supabase + Prisma |
 | Testes | PENDENTE | Sem configuração; planejado: Vitest + Playwright |
 | Infraestrutura | PENDENTE | Sem Docker, CI/CD ou observabilidade; deploy planejado: Vercel |
@@ -28,6 +28,29 @@ O Freya CRM é um sistema comercial e de relacionamento com clientes, separado d
 ---
 
 ## 3. Histórico de Desenvolvimento
+
+### 07/07/2026 — Migração para Monorepo Turborepo
+
+- **O que foi analisado:** Projeto Next.js inicializado na raiz do repositório; necessidade de estrutura monorepo para separar UI e regras de negócio.
+- **O que foi decidido:** Migrar para Turborepo com apps/web (Next.js), packages/ui (componentes shadcn/ui) e packages/lib (regras de negócio CRM).
+- **O que foi criado:**
+  - `package.json` raiz com workspaces e turbo
+  - `turbo.json` com tasks dev, build, lint, test
+  - `apps/web/` — app Next.js movida da raiz
+  - `apps/web/package.json` (@freya-crm/web)
+  - `apps/web/tsconfig.json` com paths @repo/ui e @repo/lib
+  - `packages/ui/` — @repo/ui com Button, cn() e index.ts
+  - `packages/lib/` — @repo/lib com index.ts placeholder
+  - `packages/ui/eslint.config.mjs` e `packages/lib/eslint.config.mjs`
+- **O que foi alterado:** README.md, ESCOPO.md, ROADMAP.md, CONTEXTO.md, .gitignore
+- **O que ficou pendente:**
+  - Configurar Prisma + schema CRM
+  - Configurar Supabase Auth
+  - Configurar RBAC
+  - Configurar Vitest e Playwright
+- **Evidências:** `turbo.json`, `apps/web/`, `packages/ui/`, `packages/lib/`, build e lint passando com turbo.
+
+---
 
 ### 07/07/2026 — Inicialização do Projeto Next.js
 

@@ -71,6 +71,7 @@ Critérios de aceite:
 
 Tarefas:
 - [x] Inicializar projeto Next.js com TypeScript
+- [x] Migrar para monorepo Turborepo (apps/web + packages/ui + packages/lib)
 - [ ] Configurar Prisma com PostgreSQL/Supabase
 - [ ] Configurar Supabase Auth
 - [ ] Configurar Vitest e Playwright

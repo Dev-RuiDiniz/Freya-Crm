@@ -4,6 +4,7 @@ Sistema comercial e de relacionamento com clientes da Dev-RuiDiniz.
 
 ## Stack
 
+- **Monorepo:** Turborepo + npm workspaces
 - **Framework:** Next.js (App Router)
 - **Linguagem:** TypeScript
 - **UI:** Tailwind CSS + shadcn/ui + lucide-react
@@ -15,36 +16,48 @@ Sistema comercial e de relacionamento com clientes da Dev-RuiDiniz.
 ## Comandos
 
 ```bash
-npm install        # instalar dependências
-npm run dev        # ambiente de desenvolvimento
-npm run build      # build de produção
-npm run lint       # lint
+npm install              # instalar dependências (raiz)
+npm run dev              # ambiente de desenvolvimento (todas as apps)
+npm run dev:web          # apenas a app web
+npm run build            # build de produção (turbo)
+npm run lint             # lint (turbo)
 ```
 
 ## Estrutura
 
 ```text
-src/
-├── app/
-│   ├── (auth)/            # rotas de autenticação (planejado)
-│   ├── (protected)/crm/   # rotas protegidas do CRM
-│   │   ├── dashboard/
-│   │   ├── leads/
-│   │   ├── empresas/
-│   │   ├── contatos/
-│   │   ├── oportunidades/
-│   │   ├── funil/
-│   │   ├── atividades/
-│   │   ├── propostas/
-│   │   ├── relatorios/
-│   │   └── configuracoes/
-│   └── actions/           # server actions (planejado)
-├── components/
-│   ├── ui/                # componentes shadcn/ui
-│   └── crm/               # componentes do CRM (planejado)
-└── lib/
-    ├── utils.ts           # utilitários (cn)
-    └── crm/               # regras de negócio do CRM (planejado)
+Freya-Crm/
+├── apps/
+│   └── web/                         # app Next.js (@freya-crm/web)
+│       └── src/
+│           ├── app/
+│           │   ├── (auth)/          # rotas de autenticação (planejado)
+│           │   ├── (protected)/crm/ # rotas protegidas do CRM
+│           │   │   ├── dashboard/
+│           │   │   ├── leads/
+│           │   │   ├── empresas/
+│           │   │   ├── contatos/
+│           │   │   ├── oportunidades/
+│           │   │   ├── funil/
+│           │   │   ├── atividades/
+│           │   │   ├── propostas/
+│           │   │   ├── relatorios/
+│           │   │   └── configuracoes/
+│           │   └── actions/         # server actions (planejado)
+│           └── components/
+│               └── crm/             # componentes do CRM (planejado)
+├── packages/
+│   ├── ui/                          # componentes shadcn/ui (@repo/ui)
+│   │   └── src/
+│   │       ├── button.tsx
+│   │       ├── utils.ts             # cn()
+│   │       └── index.ts
+│   └── lib/                         # regras de negócio CRM (@repo/lib)
+│       └── src/
+│           ├── crm/
+│           └── index.ts
+├── turbo.json
+└── package.json                     # workspace root
 ```
 
 ## Documentação

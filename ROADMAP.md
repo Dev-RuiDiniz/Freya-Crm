@@ -41,16 +41,16 @@ O roadmap é dividido em 7 fases:
 
 **Objetivo:** entender o projeto, documentar arquitetura, banco e escopo.
 
-**Status:** EM DESENVOLVIMENTO
+**Status:** CONCLUÍDO
 
 Épicos:
-- EP-0001 — Criar governança do repositório (`AGENTS.md`)
-- EP-0002 — Mapear arquitetura (`ARQUITETURA.md`)
-- EP-0003 — Mapear banco de dados (`BANCO_DADOS.md`)
-- EP-0004 — Definir escopo inicial (`ESCOPO.md`)
-- EP-0005 — Definir estratégia de testes (`ROADMAP.md`)
-- EP-0006 — Criar contexto vivo do projeto (`CONTEXTO.md`)
-- EP-0007 — Criar relatório diário (`RELATORIO.md`)
+- EP-0001 — Criar governança do repositório (`AGENTS.md`) — CONCLUÍDO
+- EP-0002 — Mapear arquitetura (`ARQUITETURA.md`) — CONCLUÍDO
+- EP-0003 — Mapear banco de dados (`BANCO_DADOS.md`) — CONCLUÍDO
+- EP-0004 — Definir escopo inicial (`ESCOPO.md`) — CONCLUÍDO
+- EP-0005 — Definir estratégia de testes (`ROADMAP.md`) — CONCLUÍDO
+- EP-0006 — Criar contexto vivo do projeto (`CONTEXTO.md`) — CONCLUÍDO
+- EP-0007 — Criar relatório diário (`RELATORIO.md`) — CONCLUÍDO
 
 Critérios de aceite:
 - [x] `AGENTS.md` criado.
@@ -58,8 +58,8 @@ Critérios de aceite:
 - [x] `BANCO_DADOS.md` criado.
 - [x] `ESCOPO.md` criado.
 - [x] `ROADMAP.md` criado.
-- [ ] `CONTEXTO.md` criado.
-- [ ] `RELATORIO.md` criado.
+- [x] `CONTEXTO.md` criado.
+- [x] `RELATORIO.md` criado.
 
 ---
 
@@ -67,36 +67,36 @@ Critérios de aceite:
 
 **Objetivo:** garantir que o projeto rode localmente, tenha testes e documentação mínima.
 
-**Status:** PENDENTE
+**Status:** EM DESENVOLVIMENTO
 
 Tarefas:
-- Inicializar projeto Next.js com TypeScript
-- Configurar Prisma com PostgreSQL/Supabase
-- Configurar Supabase Auth
-- Configurar Vitest e Playwright
-- Criar `package.json` com scripts (dev, lint, test, test:e2e, build)
-- Validar variáveis de ambiente (`.env.example`)
-- Criar schema Prisma inicial com entidades CRM
-- Criar migration inicial
-- Criar seed de pipeline padrão e motivos de perda
-- Criar permissões CRM (RBAC com 5 perfis)
-- Criar menu CRM vazio
-- Configurar layout protegido para rotas `/crm`
-- Validar build, lint e testes
-- Documentar comandos no `ARQUITETURA.md`
+- [x] Inicializar projeto Next.js com TypeScript
+- [ ] Configurar Prisma com PostgreSQL/Supabase
+- [ ] Configurar Supabase Auth
+- [ ] Configurar Vitest e Playwright
+- [x] Criar `package.json` com scripts (dev, lint, test, test:e2e, build)
+- [x] Validar variáveis de ambiente (`.env.example`)
+- [ ] Criar schema Prisma inicial com entidades CRM
+- [ ] Criar migration inicial
+- [ ] Criar seed de pipeline padrão e motivos de perda
+- [ ] Criar permissões CRM (RBAC com 5 perfis)
+- [ ] Criar menu CRM vazio
+- [ ] Configurar layout protegido para rotas `/crm`
+- [x] Validar build, lint e testes
+- [ ] Documentar comandos no `ARQUITETURA.md`
 
 Critérios de aceite:
-- [ ] `npm install` funciona.
-- [ ] `npm run dev` sobe o servidor.
-- [ ] `npm run build` passa.
-- [ ] `npm run lint` passa.
+- [x] `npm install` funciona.
+- [x] `npm run dev` sobe o servidor.
+- [x] `npm run build` passa.
+- [x] `npm run lint` passa.
 - [ ] `npm run test` passa (mesmo que vazio).
 - [ ] Schema Prisma criado com entidades CRM.
 - [ ] Migration inicial aplicada.
 - [ ] Seed de pipeline executado.
 - [ ] Menu CRM aparece somente para perfis autorizados.
-- [ ] `.env.example` criado sem secrets.
-- [ ] Nenhuma credencial exposta.
+- [x] `.env.example` criado sem secrets.
+- [x] Nenhuma credencial exposta.
 
 ---
 
@@ -424,9 +424,9 @@ Backlog futuro:
 | EP-0003 | Épico | Mapear banco de dados | Alta | CONCLUÍDO |
 | EP-0004 | Épico | Definir escopo inicial | Alta | CONCLUÍDO |
 | EP-0005 | Épico | Definir estratégia de testes | Alta | CONCLUÍDO |
-| EP-0006 | Épico | Criar contexto vivo do projeto | Alta | EM DESENVOLVIMENTO |
-| EP-0007 | Épico | Criar relatório diário | Alta | EM DESENVOLVIMENTO |
-| EP-0008 | Épico | Base técnica e ambiente (Sprint 0) | Alta | PENDENTE |
+| EP-0006 | Épico | Criar contexto vivo do projeto | Alta | CONCLUÍDO |
+| EP-0007 | Épico | Criar relatório diário | Alta | CONCLUÍDO |
+| EP-0008 | Épico | Base técnica e ambiente (Sprint 0) | Alta | EM DESENVOLVIMENTO |
 | EP-0009 | Épico | Leads, empresas e contatos (Sprint 1) | Alta | PENDENTE |
 | EP-0010 | Épico | Funil e oportunidades (Sprint 2) | Alta | PENDENTE |
 | EP-0011 | Épico | Atividades e follow-ups (Sprint 3) | Alta | PENDENTE |
@@ -435,7 +435,7 @@ Backlog futuro:
 | EP-0014 | Épico | Segurança, performance e qualidade | Média | PENDENTE |
 | EP-0015 | Épico | Deploy e operação | Média | PENDENTE |
 | EP-0016 | Épico | Evolução contínua | Baixa | PENDENTE |
-| DT-0001 | Débito técnico | Inicializar projeto Next.js | Alta | PENDENTE |
+| DT-0001 | Débito técnico | Inicializar projeto Next.js | Alta | CONCLUÍDO |
 | DT-0002 | Débito técnico | Configurar Vitest e Playwright | Alta | PENDENTE |
 | DT-0003 | Débito técnico | Remover credenciais expostas do Tyr | Alta | PENDENTE |
 | DT-0004 | Débito técnico | Definir política de retenção LGPD | Alta | PENDENTE |
@@ -454,7 +454,7 @@ Backlog futuro:
 | EP-0003 | Banco (BANCO_DADOS.md) | Sim | N/A | N/A | Sim |
 | EP-0004 | Escopo (ESCOPO.md) | Sim | N/A | N/A | Sim |
 | EP-0005 | Roadmap (ROADMAP.md) | Sim | N/A | N/A | Sim |
-| EP-0008 | Base técnica (Sprint 0) | Não | Não | Não | Não |
+| EP-0008 | Base técnica (Sprint 0) | Sim | Não | Parcial | Sim |
 | EP-0009 | Leads/empresas/contatos | Não | Não | Não | Não |
 | EP-0010 | Funil/oportunidades | Não | Não | Não | Não |
 | EP-0011 | Atividades | Não | Não | Não | Não |

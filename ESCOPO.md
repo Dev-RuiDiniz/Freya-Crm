@@ -2,7 +2,7 @@
 
 **Projeto:** Freya CRM  
 **Atualizado em:** 07/07/2026  
-**Fase:** Planejamento / MVP (a confirmar)
+**Fase:** Inicialização / Sprint 0 em andamento
 
 ---
 
@@ -221,13 +221,13 @@ O Freya resolve essa dor oferecendo:
 
 ## 8. Critérios Gerais de Aceite
 
-- [ ] Sistema executa localmente com instruções documentadas.
+- [x] Sistema executa localmente com instruções documentadas.
 - [ ] Testes principais passam.
 - [ ] Funcionalidades principais documentadas.
-- [ ] Banco de dados documentado.
+- [x] Banco de dados documentado.
 - [ ] Fluxos principais validados.
-- [ ] Sem credenciais expostas.
-- [ ] Relatório diário atualizado.
+- [x] Sem credenciais expostas.
+- [x] Relatório diário atualizado.
 
 ### Critérios de aceite do MVP
 
@@ -275,7 +275,7 @@ O Freya resolve essa dor oferecendo:
 
 ## 11. Restrições
 
-- Repositório sem código inicial — toda a base técnica precisa ser criada.
+- Repositório com base Next.js inicializada — Prisma, Auth, RBAC e testes pendentes.
 - Integração com Tyr depende da disponibilidade e estrutura do ERP.
 - LGPD exige política de consentimento, opt-out e retenção desde o MVP.
 - Credenciais em documentação do Tyr precisam ser removidas/rotacionadas antes de produção.

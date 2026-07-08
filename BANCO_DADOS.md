@@ -12,7 +12,7 @@ O banco de dados do Freya CRM armazena todas as entidades do domínio comercial:
 
 A tecnologia planejada é PostgreSQL via Supabase, com Prisma como ORM e Prisma Migrate para migrations. A estratégia de persistência segue o padrão do Tyr_Controle, com soft delete nas entidades principais e auditoria de ações críticas.
 
-> **Observação:** Nenhuma migration, schema ou seed existe ainda no repositório. Tudo é proposta/pendente.
+> **Observação:** Schema Prisma e seed criados em `apps/web/prisma/`. Migration inicial pendente (requer `DATABASE_URL` configurada).
 
 ---
 
@@ -30,16 +30,15 @@ A tecnologia planejada é PostgreSQL via Supabase, com Prisma como ORM e Prisma 
 
 ## 3. Localização dos Arquivos de Banco
 
-> **Observação:** Nenhum arquivo existe ainda. Estrutura planejada conforme o escopo.
-
 | Tipo | Caminho | Observação |
 |---|---|---|
-| Schema Prisma | `prisma/schema.prisma` | Planejado |
-| Migrations | `prisma/migrations/` | Planejado |
-| Seeds | `prisma/seed.ts` | Planejado |
+| Schema Prisma | `apps/web/prisma/schema.prisma` | Criado — 13 models + 11 enums |
+| Migrations | `apps/web/prisma/migrations/` | Pendente (requer DATABASE_URL) |
+| Seeds | `apps/web/prisma/seed.ts` | Criado — pipeline padrão + motivos de perda |
+| Config Prisma 7 | `apps/web/prisma.config.ts` | Criado — datasource, migrations, seed |
+| Prisma Client | `apps/web/src/lib/prisma.ts` | Criado — singleton com adapter PostgreSQL |
 | Repositories / Queries | `src/lib/crm/queries.ts` | Planejado |
 | Schemas Zod | `src/lib/crm/schemas.ts` | Planejado |
-| Configuração de conexão | `src/lib/prisma.ts` | Planejado (reaproveitado do Tyr) |
 
 ---
 
@@ -69,7 +68,7 @@ erDiagram
 
 ## 5. Tabelas / Coleções
 
-> **Observação:** Todas as tabelas abaixo são propostas no escopo. Nenhuma migration existe ainda. `PENDENTE DE IMPLEMENTAÇÃO`.
+> **Observação:** Todas as tabelas abaixo estão implementadas no schema Prisma. Migration inicial pendente (requer `DATABASE_URL`).
 
 ### `crm_leads`
 
@@ -486,12 +485,10 @@ erDiagram
 
 ## 6. Migrações
 
-> **Observação:** Nenhuma migration existe ainda no repositório.
-
 | Ordem | Arquivo | Descrição | Status |
 |---|---|---|---|
-| 001 | `prisma/migrations/001_init_crm/` | Criação das tabelas base do CRM | PENDENTE DE CRIAÇÃO |
-| 002 | `prisma/migrations/002_seed_pipeline/` | Seed do pipeline padrão | PENDENTE DE CRIAÇÃO |
+| 001 | `apps/web/prisma/migrations/` | Criação das tabelas base do CRM | PENDENTE (requer DATABASE_URL) |
+| Seed | `apps/web/prisma/seed.ts` | Pipeline padrão + motivos de perda | CRIADO |
 
 ### Como rodar migrations
 
@@ -516,11 +513,9 @@ npx prisma migrate deploy # produção
 
 ## 7. Seeds e Dados Iniciais
 
-> **Observação:** Nenhum seed existe ainda.
-
 | Arquivo | Dados criados | Status |
 |---|---|---|
-| `prisma/seed.ts` | Pipeline padrão com 7 etapas, motivos de perda iniciais | PENDENTE DE CRIAÇÃO |
+| `apps/web/prisma/seed.ts` | Pipeline padrão com 7 etapas, 8 motivos de perda | CRIADO |
 
 ### Pipeline padrão sugerido para seed
 
@@ -675,9 +670,9 @@ npx prisma db seed
 
 | Item | Risco | Severidade | Ação recomendada |
 |---|---|---|---|
-| Schema Prisma não criado | Sem banco funcional | Alta | Criar `prisma/schema.prisma` na Sprint 0 |
-| Migrations não criadas | Sem persistência | Alta | Criar migration inicial na Sprint 0 |
-| Seeds não criados | Sem dados iniciais | Média | Criar seed de pipeline padrão na Sprint 0 |
+| Schema Prisma não criado | Sem banco funcional | Alta | ~~Criar `prisma/schema.prisma` na Sprint 0~~ CONCLUÍDO |
+| Migrations não criadas | Sem persistência | Alta | Criar migration inicial (requer DATABASE_URL) |
+| Seeds não criados | Sem dados iniciais | Média | ~~Criar seed de pipeline padrão na Sprint 0~~ CONCLUÍDO |
 | Política de retenção LGPD não definida | Risco legal | Alta | Definir política antes de produção |
 | RLS não confirmado | Risco de acesso indevido | Média | Avaliar RLS no Supabase |
 | Estratégia de backup não definida | Risco de perda de dados | Alta | Definir backup com Supabase |

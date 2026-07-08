@@ -8,7 +8,7 @@
 
 ## 1. Resumo Executivo
 
-O Freya CRM é um sistema comercial e de relacionamento com clientes, separado do Tyr ERP (sistema operacional). O projeto foi migrado para monorepo Turborepo com apps/web (Next.js), packages/ui (componentes shadcn/ui) e packages/lib (regras de negócio CRM). A estrutura de pastas do CRM foi criada e a página placeholder está funcionando. Build e lint passando com turbo. Prisma, Supabase Auth, RBAC, testes e funcionalidades CRM ainda não foram implementados. O principal objetivo técnico atual é configurar Prisma + Supabase Auth + RBAC (restante da Sprint 0). Os principais riscos são: integração com Tyr ERP não implementada, credenciais em documentação do Tyr (risco herdado), e ausência de política LGPD definida.
+O Freya CRM é um sistema comercial e de relacionamento com clientes, separado do Tyr ERP (sistema operacional). O projeto foi migrado para monorepo Turborepo com apps/web (Next.js), packages/ui (componentes shadcn/ui) e packages/lib (regras de negócio CRM). A estrutura de pastas do CRM foi criada e a página placeholder está funcionando. Build e lint passando com turbo. **Prisma 7 configurado** com schema completo (13 models + 11 enums), singleton do Prisma Client com adapter PostgreSQL, seed de pipeline padrão (7 etapas) e motivos de perda (8 motivos). Migration inicial pendente (requer DATABASE_URL configurada). Supabase Auth, RBAC, testes e funcionalidades CRM ainda não foram implementados. O principal objetivo técnico atual é configurar Supabase Auth + RBAC e Vitest/Playwright (restante da Sprint 0).
 
 ---
 
@@ -18,7 +18,7 @@ O Freya CRM é um sistema comercial e de relacionamento com clientes, separado d
 |---|---|---|
 | Backend | EM DESENVOLVIMENTO | Next.js em monorepo Turborepo; Server Actions e Prisma pendentes |
 | Frontend | EM DESENVOLVIMENTO | Next.js + Tailwind + shadcn/ui em apps/web; packages/ui com Button e cn; páginas pendentes |
-| Banco de dados | PENDENTE | Sem schema; planejado: PostgreSQL/Supabase + Prisma |
+| Banco de dados | EM DESENVOLVIMENTO | Prisma 7 configurado com schema completo (13 models + 11 enums); migration pendente (requer DATABASE_URL) |
 | Testes | PENDENTE | Sem configuração; planejado: Vitest + Playwright |
 | Infraestrutura | PENDENTE | Sem Docker, CI/CD ou observabilidade; deploy planejado: Vercel |
 | Documentação | ATUALIZADA | Governança completa + documentação de inicialização |
@@ -28,6 +28,25 @@ O Freya CRM é um sistema comercial e de relacionamento com clientes, separado d
 ---
 
 ## 3. Histórico de Desenvolvimento
+
+### 07/07/2026 — Configuração do Prisma 7 + Schema CRM + Seed
+
+- **O que foi analisado:** Documentação de banco (BANCO_DADOS.md) com 12 tabelas propostas; arquitetura planejada; necessidade de configurar Prisma antes das funcionalidades.
+- **O que foi decidido:** Configurar Prisma 7 com adapter PostgreSQL (@prisma/adapter-pg), schema completo com prefixo Crm, seed de pipeline padrão e motivos de perda.
+- **O que foi criado:**
+  - `apps/web/prisma/schema.prisma` — 13 models (CrmUser, CrmLead, CrmCompany, CrmContact, CrmPipeline, CrmPipelineStage, CrmOpportunity, CrmOpportunityStageHistory, CrmActivity, CrmProposal, CrmLossReason, CrmAuditLog, CrmIntegrationLink) + 11 enums
+  - `apps/web/prisma/seed.ts` — Seed com pipeline padrão (7 etapas) e 8 motivos de perda
+  - `apps/web/prisma.config.ts` — Config Prisma 7 (datasource, migrations, seed)
+  - `apps/web/src/lib/prisma.ts` — Singleton do Prisma Client com adapter PostgreSQL
+- **O que foi alterado:** `apps/web/package.json` (deps Prisma, adapter, pg, dotenv, tsx + scripts db:*), `apps/web/.env.example` (SHADOW_DATABASE_URL), `BANCO_DADOS.md`, `ARQUITETURA.md`, `ROADMAP.md`
+- **O que ficou pendente:**
+  - Criar migration inicial (requer DATABASE_URL configurada)
+  - Configurar Supabase Auth
+  - Configurar RBAC
+  - Configurar Vitest e Playwright
+- **Evidências:** `apps/web/prisma/schema.prisma`, `apps/web/prisma/seed.ts`, `apps/web/prisma.config.ts`, `apps/web/src/lib/prisma.ts`, `prisma generate` e `next build` passando.
+
+---
 
 ### 07/07/2026 — Migração para Monorepo Turborepo
 
@@ -112,8 +131,8 @@ O Freya CRM é um sistema comercial e de relacionamento com clientes, separado d
 | 07/07/2026 | Prefixo `Crm` em entidades Prisma | Preservar separação de domínios Freya vs Tyr | Evita colisão de models e acoplamento | Planejada |
 | 07/07/2026 | Server Actions no MVP (sem API REST) | Simplicidade e velocidade de entrega | Pode evoluir para API interna se extraído | Planejada |
 | 07/07/2026 | RBAC com 2 perfis iniciais (ADMIN, VENDEDOR) | Simplificação para MVP | GESTOR_COMERCIAL, CS e LEITURA adicionados no futuro | Planejada |
-| 07/07/2026 | Soft delete em entidades principais | Rastreabilidade e integridade de dados | `deleted_at` em leads, empresas, contatos, oportunidades | Planejada |
-| 07/07/2026 | Auditoria via `crm_audit_logs` | Rastreabilidade de ações críticas | Log de conversão, exclusão, status final, responsável | Planejada |
+| 07/07/2026 | Prisma 7 com adapter PostgreSQL | Prisma 7 exige adapter no PrismaClient e URL no prisma.config.ts | Schema, seed e singleton criados; migration pendente | Configurada |
+| 07/07/2026 | Soft delete em entidades principais | Rastreabilidade e integridade de dados | `deleted_at` em leads, empresas, contatos, oportunidades | Implementada no schema |
 
 ---
 
@@ -132,11 +151,11 @@ O Freya CRM é um sistema comercial e de relacionamento com clientes, separado d
 
 | Pendência | Área | Prioridade | Próxima ação |
 |---|---|---|---|
-| Inicializar projeto Next.js | Base técnica | Alta | Sprint 0 |
-| Criar `package.json` | Base técnica | Alta | Sprint 0 |
-| Criar `prisma/schema.prisma` | Banco de dados | Alta | Sprint 0 |
-| Criar migration inicial | Banco de dados | Alta | Sprint 0 |
-| Criar seed de pipeline padrão | Banco de dados | Alta | Sprint 0 |
+| ~~Inicializar projeto Next.js~~ | Base técnica | Alta | ~~Sprint 0~~ CONCLUÍDO |
+| ~~Criar `package.json`~~ | Base técnica | Alta | ~~Sprint 0~~ CONCLUÍDO |
+| ~~Criar `prisma/schema.prisma`~~ | Banco de dados | Alta | ~~Sprint 0~~ CONCLUÍDO |
+| ~~Criar seed de pipeline padrão~~ | Banco de dados | Alta | ~~Sprint 0~~ CONCLUÍDO |
+| Criar migration inicial | Banco de dados | Alta | Requer DATABASE_URL configurada |
 | Configurar Vitest | Testes | Alta | Sprint 0 |
 | Configurar Playwright | Testes | Alta | Sprint 0 |
 | Configurar Supabase Auth | Autenticação | Alta | Sprint 0 |
@@ -154,7 +173,7 @@ O Freya CRM é um sistema comercial e de relacionamento com clientes, separado d
 
 | Bloqueio | Severidade | Descrição | Dependência |
 |---|---|---|---|
-| Sem código inicial | Alta | Repositório sem `package.json`, sem configuração | Decisão de iniciar Sprint 0 |
+| Migration inicial pendente | Alta | Schema criado mas sem DATABASE_URL configurada | Configurar Supabase/PostgreSQL |
 | Integração com Tyr não definida tecnicamente | Média | Estratégia de integração (direta vs API) depende de decisão | Validação da arquitetura do Tyr |
 | Credenciais expostas no Tyr | Alta | Documentação do Tyr aparenta conter credenciais | Remoção e rotação antes de produção |
 
@@ -178,11 +197,11 @@ O Freya CRM é um sistema comercial e de relacionamento com clientes, separado d
 
 ## 9. Próximos Passos
 
-1. Finalizar criação do `RELATORIO.md`.
-2. Inicializar projeto Next.js com TypeScript (Sprint 0).
-3. Criar `package.json` com scripts (dev, lint, test, test:e2e, build).
-4. Configurar Prisma com PostgreSQL/Supabase e criar schema inicial.
-5. Criar migration inicial e seed de pipeline padrão.
+1. ~~Finalizar criação do `RELATORIO.md`.~~
+2. ~~Inicializar projeto Next.js com TypeScript (Sprint 0).~~
+3. ~~Criar `package.json` com scripts (dev, lint, test, test:e2e, build).~~
+4. ~~Configurar Prisma com PostgreSQL/Supabase e criar schema inicial.~~
+5. Criar migration inicial (requer DATABASE_URL configurada).
 6. Configurar Vitest e Playwright.
 7. Configurar Supabase Auth e RBAC com 2 perfis (ADMIN, VENDEDOR).
 8. Criar menu CRM vazio e layout protegido.
@@ -197,7 +216,7 @@ O Freya CRM é um sistema comercial e de relacionamento com clientes, separado d
 - Sempre atualizar este arquivo ao final da sessão.
 - Não remover histórico antigo.
 - Registrar decisões, bloqueios e mudanças de direção.
-- O repositório está em fase de planejamento — nenhum código existe ainda.
+- O repositório está em fase de implementação da Sprint 0 — Prisma configurado, Auth/RBAC/testes pendentes.
 - Toda implementação deve seguir SDD (especificação antes) e TDD (teste antes).
 - Usar prefixo `Crm` em entidades Prisma.
 - Preservar separação de domínios: Freya (CRM) vs Tyr (ERP).

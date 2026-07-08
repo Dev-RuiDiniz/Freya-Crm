@@ -1,0 +1,396 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ──────────────────────────────────────────────
+// Enums
+// ──────────────────────────────────────────────
+
+enum CrmUserRole {
+  ADMIN
+  VENDEDOR
+}
+
+enum CrmLeadSource {
+  SITE
+  INDICACAO
+  WHATSAPP
+  LINKEDIN
+  TRAFEGO_PAGO
+  EVENTO
+  OUTBOUND
+  OUTRO
+}
+
+enum CrmLeadStatus {
+  NOVO
+  CONTATADO
+  QUALIFICADO
+  DESQUALIFICADO
+  CONVERTIDO
+}
+
+enum CrmLeadTemperature {
+  FRIO
+  MORNO
+  QUENTE
+}
+
+enum CrmCompanyStatus {
+  PROSPECT
+  EM_NEGOCIACAO
+  CLIENTE_ATIVO
+  CLIENTE_INATIVO
+  PERDIDO
+  BLOQUEADO
+}
+
+enum CrmCompanySize {
+  PEQUENA
+  MEDIA
+  GRANDE
+  STARTUP
+  FREELANCER
+}
+
+enum CrmContactPreference {
+  EMAIL
+  TELEFONE
+  WHATSAPP
+  REUNIAO
+}
+
+enum CrmOpportunityStatus {
+  ABERTA
+  GANHA
+  PERDIDA
+  CANCELADA
+  CONGELADA
+}
+
+enum CrmOpportunityPriority {
+  BAIXA
+  MEDIA
+  ALTA
+  URGENTE
+}
+
+enum CrmActivityType {
+  LIGACAO
+  WHATSAPP
+  EMAIL
+  REUNIAO
+  DEMONSTRACAO
+  PROPOSTA
+  FOLLOW_UP
+  TAREFA
+  NOTA
+  OUTRO
+}
+
+enum CrmActivityStatus {
+  PENDENTE
+  CONCLUIDA
+  CANCELADA
+  ATRASADA
+}
+
+enum CrmProposalStatus {
+  RASCUNHO
+  ENVIADA
+  EM_NEGOCIACAO
+  APROVADA
+  RECUSADA
+  EXPIRADA
+  CANCELADA
+}
+
+// ──────────────────────────────────────────────
+// Models
+// ──────────────────────────────────────────────
+
+model CrmUser {
+  id        String     @id @default(uuid())
+  email     String     @unique
+  name      String
+  role      CrmUserRole @default(VENDEDOR)
+  active    Boolean    @default(true)
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+
+  leads           CrmLead[]           @relation("LeadOwner")
+  companies       CrmCompany[]        @relation("CompanyOwner")
+  opportunities   CrmOpportunity[]    @relation("OppOwner")
+  activities      CrmActivity[]       @relation("ActivityOwner")
+  stageHistories  CrmOpportunityStageHistory[] @relation("StageChangedBy")
+  auditLogs       CrmAuditLog[]       @relation("AuditPerformedBy")
+
+  @@map("crm_users")
+}
+
+model CrmLead {
+  id               String             @id @default(uuid())
+  name             String
+  email            String?
+  phone            String?
+  companyName      String?            @map("company_name")
+  companyId        String?            @map("company_id")
+  company          CrmCompany?        @relation("LeadCompany", fields: [companyId], references: [id])
+  position         String?
+  source           CrmLeadSource
+  status           CrmLeadStatus      @default(NOVO)
+  temperature      CrmLeadTemperature @default(FRIO)
+  interest         String?
+  notes            String?
+  ownerId          String             @map("owner_id")
+  owner            CrmUser            @relation("LeadOwner", fields: [ownerId], references: [id])
+  nextFollowUp     DateTime?          @map("next_follow_up")
+  lgpdConsent      Boolean            @default(false) @map("lgpd_consent")
+  lgpdConsentDate  DateTime?          @map("lgpd_consent_date")
+  createdAt        DateTime           @default(now()) @map("created_at")
+  updatedAt        DateTime           @updatedAt @map("updated_at")
+  deletedAt        DateTime?          @map("deleted_at")
+
+  activities      CrmActivity[]       @relation("LeadActivities")
+  opportunities   CrmOpportunity[]   @relation("LeadOpportunities")
+
+  @@index([email])
+  @@index([phone])
+  @@index([status])
+  @@index([source])
+  @@index([ownerId])
+  @@index([createdAt])
+  @@map("crm_leads")
+}
+
+model CrmCompany {
+  id           String           @id @default(uuid())
+  tradeName    String           @map("trade_name")
+  legalName    String?          @map("legal_name")
+  document     String?          @unique
+  website      String?
+  segment      String?
+  size         CrmCompanySize?
+  source       CrmLeadSource?
+  status       CrmCompanyStatus @default(PROSPECT)
+  address      Json?
+  notes        String?
+  ownerId      String           @map("owner_id")
+  owner        CrmUser          @relation("CompanyOwner", fields: [ownerId], references: [id])
+  createdAt    DateTime         @default(now()) @map("created_at")
+  updatedAt    DateTime         @updatedAt @map("updated_at")
+  deletedAt    DateTime?        @map("deleted_at")
+
+  leads         CrmLead[]         @relation("LeadCompany")
+  contacts      CrmContact[]      @relation("CompanyContacts")
+  opportunities CrmOpportunity[]  @relation("CompanyOpportunities")
+  activities    CrmActivity[]     @relation("CompanyActivities")
+
+  @@index([tradeName])
+  @@map("crm_companies")
+}
+
+model CrmContact {
+  id                 String               @id @default(uuid())
+  name               String
+  email              String?
+  phone              String?
+  position           String?
+  companyId          String?              @map("company_id")
+  company            CrmCompany?          @relation("CompanyContacts", fields: [companyId], references: [id])
+  linkedin           String?
+  isPrimary          Boolean              @default(false) @map("is_primary")
+  contactPreference  CrmContactPreference? @map("contact_preference")
+  lgpdConsent        Boolean              @default(false) @map("lgpd_consent")
+  lgpdConsentDate    DateTime?            @map("lgpd_consent_date")
+  notes              String?
+  createdAt          DateTime             @default(now()) @map("created_at")
+  updatedAt          DateTime             @updatedAt @map("updated_at")
+  deletedAt          DateTime?            @map("deleted_at")
+
+  activities    CrmActivity[]     @relation("ContactActivities")
+
+  @@index([email])
+  @@index([phone])
+  @@map("crm_contacts")
+}
+
+model CrmPipeline {
+  id          String             @id @default(uuid())
+  name        String
+  description String?
+  isDefault   Boolean            @default(false) @map("is_default")
+  createdAt   DateTime           @default(now()) @map("created_at")
+  updatedAt   DateTime           @updatedAt @map("updated_at")
+
+  stages      CrmPipelineStage[]
+
+  @@map("crm_pipelines")
+}
+
+model CrmPipelineStage {
+  id          String       @id @default(uuid())
+  pipelineId  String       @map("pipeline_id")
+  pipeline    CrmPipeline  @relation(fields: [pipelineId], references: [id], onDelete: Cascade)
+  name        String
+  order       Int
+  probability Float?
+  isFinal     Boolean       @default(false) @map("is_final")
+  isWon       Boolean       @default(false) @map("is_won")
+  isLost      Boolean       @default(false) @map("is_lost")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  opportunities       CrmOpportunity[]              @relation("OppStage")
+  fromStageHistories  CrmOpportunityStageHistory[]  @relation("FromStage")
+  toStageHistories    CrmOpportunityStageHistory[]  @relation("ToStage")
+
+  @@index([pipelineId])
+  @@map("crm_pipeline_stages")
+}
+
+model CrmOpportunity {
+  id               String                 @id @default(uuid())
+  title            String
+  companyId        String                 @map("company_id")
+  company          CrmCompany             @relation("CompanyOpportunities", fields: [companyId], references: [id])
+  contactId        String?                @map("contact_id")
+  leadId           String?                @map("lead_id")
+  lead             CrmLead?               @relation("LeadOpportunities", fields: [leadId], references: [id])
+  ownerId          String                 @map("owner_id")
+  owner            CrmUser                @relation("OppOwner", fields: [ownerId], references: [id])
+  stageId          String                 @map("stage_id")
+  stage            CrmPipelineStage       @relation("OppStage", fields: [stageId], references: [id])
+  status           CrmOpportunityStatus   @default(ABERTA)
+  estimatedValue   Decimal                @db.Decimal(12, 2) @map("estimated_value")
+  probability      Float?
+  expectedCloseDate DateTime?             @map("expected_close_date")
+  service          String?
+  priority         CrmOpportunityPriority?
+  description      String?
+  lossReasonId     String?                @map("loss_reason_id")
+  lossReason       CrmLossReason?         @relation("OppLossReason", fields: [lossReasonId], references: [id])
+  lossReasonNote   String?                @map("loss_reason_note")
+  createdAt        DateTime               @default(now()) @map("created_at")
+  updatedAt        DateTime               @updatedAt @map("updated_at")
+  deletedAt        DateTime?              @map("deleted_at")
+
+  activities      CrmActivity[]                @relation("OppActivities")
+  proposals       CrmProposal[]                @relation("OppProposals")
+  stageHistories  CrmOpportunityStageHistory[] @relation("OppStageHistory")
+  @@index([status])
+  @@index([stageId])
+  @@index([ownerId])
+  @@index([expectedCloseDate])
+  @@map("crm_opportunities")
+}
+
+model CrmOpportunityStageHistory {
+  id            String             @id @default(uuid())
+  opportunityId String             @map("opportunity_id")
+  opportunity   CrmOpportunity     @relation("OppStageHistory", fields: [opportunityId], references: [id], onDelete: Cascade)
+  fromStageId   String?            @map("from_stage_id")
+  fromStage     CrmPipelineStage?  @relation("FromStage", fields: [fromStageId], references: [id])
+  toStageId     String             @map("to_stage_id")
+  toStage       CrmPipelineStage   @relation("ToStage", fields: [toStageId], references: [id])
+  changedBy     String             @map("changed_by")
+  changedByUser CrmUser            @relation("StageChangedBy", fields: [changedBy], references: [id])
+  changedAt     DateTime           @default(now()) @map("changed_at")
+  note          String?
+
+  @@index([opportunityId])
+  @@map("crm_opportunity_stage_history")
+}
+
+model CrmActivity {
+  id             String            @id @default(uuid())
+  type           CrmActivityType
+  title          String
+  description    String?
+  scheduledAt    DateTime          @map("scheduled_at")
+  status         CrmActivityStatus @default(PENDENTE)
+  ownerId        String            @map("owner_id")
+  owner          CrmUser           @relation("ActivityOwner", fields: [ownerId], references: [id])
+  leadId         String?           @map("lead_id")
+  lead           CrmLead?          @relation("LeadActivities", fields: [leadId], references: [id])
+  companyId      String?           @map("company_id")
+  company        CrmCompany?       @relation("CompanyActivities", fields: [companyId], references: [id])
+  contactId      String?           @map("contact_id")
+  contact        CrmContact?       @relation("ContactActivities", fields: [contactId], references: [id])
+  opportunityId  String?           @map("opportunity_id")
+  opportunity    CrmOpportunity?   @relation("OppActivities", fields: [opportunityId], references: [id])
+  result         String?
+  nextAction     String?           @map("next_action")
+  createdAt      DateTime          @default(now()) @map("created_at")
+  updatedAt      DateTime          @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@index([scheduledAt])
+  @@index([ownerId])
+  @@map("crm_activities")
+}
+
+model CrmProposal {
+  id             String            @id @default(uuid())
+  opportunityId  String            @map("opportunity_id")
+  opportunity    CrmOpportunity    @relation("OppProposals", fields: [opportunityId], references: [id], onDelete: Cascade)
+  code           String            @unique
+  title          String
+  value          Decimal           @db.Decimal(12, 2)
+  validUntil     DateTime?         @map("valid_until")
+  status         CrmProposalStatus @default(RASCUNHO)
+  documentUrl    String?           @map("document_url")
+  notes          String?
+  sentAt         DateTime?         @map("sent_at")
+  approvedAt     DateTime?         @map("approved_at")
+  rejectedAt     DateTime?         @map("rejected_at")
+  createdAt      DateTime          @default(now()) @map("created_at")
+  updatedAt      DateTime          @updatedAt @map("updated_at")
+
+  @@map("crm_proposals")
+}
+
+model CrmLossReason {
+  id          String           @id @default(uuid())
+  name        String
+  description String?
+  isActive    Boolean          @default(true) @map("is_active")
+  createdAt   DateTime         @default(now()) @map("created_at")
+
+  opportunities CrmOpportunity[] @relation("OppLossReason")
+
+  @@map("crm_loss_reasons")
+}
+
+model CrmAuditLog {
+  id          String   @id @default(uuid())
+  entityType  String   @map("entity_type")
+  entityId    String   @map("entity_id")
+  action      String
+  performedBy String   @map("performed_by")
+  performedByUser CrmUser @relation("AuditPerformedBy", fields: [performedBy], references: [id])
+  details     Json?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([entityType, entityId])
+  @@map("crm_audit_logs")
+}
+
+model CrmIntegrationLink {
+  id              String   @id @default(uuid())
+  freyaEntityType String   @map("freya_entity_type")
+  freyaEntityId   String   @map("freya_entity_id")
+  tyrEntityType   String   @map("tyr_entity_type")
+  tyrEntityId     String   @map("tyr_entity_id")
+  externalId      String?  @map("external_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@index([freyaEntityType, freyaEntityId])
+  @@index([tyrEntityType, tyrEntityId])
+  @@map("crm_integration_links")
+}

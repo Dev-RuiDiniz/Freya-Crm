@@ -24,6 +24,90 @@ Cada entrada deve conter:
 
 ---
 
+## 2026-07-07 — Registro do Dia (Configuração Prisma + Schema CRM + Seed)
+
+### 1. Resumo
+
+Configuração do Prisma 7 com adapter PostgreSQL, criação do schema completo com 13 models e 11 enums, singleton do Prisma Client, seed de pipeline padrão (7 etapas) e motivos de perda (8 motivos). Build e lint validados com sucesso.
+
+---
+
+### 2. Tarefas Executadas
+
+- [x] Instalar dependências Prisma (@prisma/client, prisma, @prisma/adapter-pg, pg, dotenv, tsx)
+- [x] Criar `apps/web/prisma/schema.prisma` com 13 models e 11 enums
+- [x] Criar `apps/web/prisma.config.ts` (Prisma 7 — datasource, migrations, seed)
+- [x] Criar `apps/web/src/lib/prisma.ts` (singleton com adapter PostgreSQL)
+- [x] Criar `apps/web/prisma/seed.ts` (pipeline padrão + motivos de perda)
+- [x] Adicionar scripts db:* no `apps/web/package.json`
+- [x] Atualizar `.env.example` com SHADOW_DATABASE_URL
+- [x] Executar `prisma generate` com sucesso
+- [x] Validar `next build` e `eslint` passando
+- [x] Atualizar documentação (BANCO_DADOS, ARQUITETURA, ROADMAP, CONTEXTO, RELATORIO)
+
+---
+
+### 3. Arquivos Criados ou Modificados
+
+| Arquivo | Ação | Descrição |
+|---|---|---|
+| `apps/web/prisma/schema.prisma` | Criado | 13 models CRM + 11 enums (Prisma 7, PostgreSQL) |
+| `apps/web/prisma/seed.ts` | Criado | Seed: pipeline 7 etapas + 8 motivos de perda |
+| `apps/web/prisma.config.ts` | Criado | Config Prisma 7 (datasource, migrations path, seed) |
+| `apps/web/src/lib/prisma.ts` | Criado | Singleton Prisma Client com adapter @prisma/adapter-pg |
+| `apps/web/package.json` | Modificado | Deps: @prisma/client, @prisma/adapter-pg, pg, dotenv, tsx; Scripts: db:* |
+| `apps/web/.env.example` | Modificado | Substituído DIRECT_URL por SHADOW_DATABASE_URL |
+| `BANCO_DADOS.md` | Modificado | Status atualizado: schema e seed criados |
+| `ARQUITETURA.md` | Modificado | Stack e estrutura de pastas atualizadas |
+| `ROADMAP.md` | Modificado | Tarefas de Prisma marcadas como concluídas |
+| `CONTEXTO.md` | Modificado | Resumo, histórico, decisões, pendências e próximos passos |
+| `RELATORIO.md` | Modificado | Este registro |
+
+---
+
+### 4. Testes
+
+| Comando | Resultado | Observações |
+|---|---|---|
+| `npx prisma generate` | Passou | Prisma Client v7.8.0 gerado |
+| `npm run build` | Passou | 3 rotas estáticas (/, /_not-found, /crm) |
+| `npm run lint` | Passou | Sem warnings ou erros |
+
+---
+
+### 5. Documentação Atualizada
+
+- `BANCO_DADOS.md` — Status de schema, seed e migrations atualizados
+- `ARQUITETURA.md` — Stack e estrutura de pastas atualizadas
+- `ROADMAP.md` — Tarefas de Prisma concluídas, migration pendente
+- `CONTEXTO.md` — Resumo, histórico, decisões, pendências e bloqueios
+- `RELATORIO.md` — Este registro
+
+---
+
+### 6. Decisões Tomadas
+
+| Decisão | Motivo | Impacto |
+|---|---|---|
+| Prisma 7 com @prisma/adapter-pg | Prisma 7 exige adapter no PrismaClient | Singleton usa Pool + PrismaPg |
+| URL no prisma.config.ts (não no schema) | Prisma 7 removeu url do datasource block | prisma.config.ts com process.env |
+| output do generator em root node_modules | Hoisting do monorepo coloca @prisma/client no root | `../../../node_modules/.prisma/client` |
+| CrmIntegrationLink sem FK direta | Tabela genérica vincula múltiplas entidades | Relação lógica apenas, sem FK física |
+| CrmUser incluído no schema | Necessário para FKs de owner e audit | Modelo local de usuários CRM |
+
+---
+
+### 7. Próximos Passos
+
+1. Configurar Supabase Auth
+2. Configurar RBAC com 2 perfis (ADMIN, VENDEDOR)
+3. Configurar Vitest e Playwright
+4. Criar menu CRM vazio e layout protegido
+5. Configurar DATABASE_URL e criar migration inicial
+6. Avançar para Sprint 1 (Leads, Empresas e Contatos)
+
+---
+
 ## 2026-07-07 — Registro do Dia (Migração Turborepo)
 
 ### 1. Resumo

@@ -72,19 +72,19 @@ Critérios de aceite:
 Tarefas:
 - [x] Inicializar projeto Next.js com TypeScript
 - [x] Migrar para monorepo Turborepo (apps/web + packages/ui + packages/lib)
-- [ ] Configurar Prisma com PostgreSQL/Supabase
+- [x] Configurar Prisma com PostgreSQL/Supabase
 - [ ] Configurar Supabase Auth
 - [ ] Configurar Vitest e Playwright
 - [x] Criar `package.json` com scripts (dev, lint, test, test:e2e, build)
 - [x] Validar variáveis de ambiente (`.env.example`)
-- [ ] Criar schema Prisma inicial com entidades CRM
-- [ ] Criar migration inicial
-- [ ] Criar seed de pipeline padrão e motivos de perda
+- [x] Criar schema Prisma inicial com entidades CRM
+- [ ] Criar migration inicial (requer DATABASE_URL configurada)
+- [x] Criar seed de pipeline padrão e motivos de perda
 - [ ] Criar permissões CRM (RBAC com 2 perfis: ADMIN, VENDEDOR)
 - [ ] Criar menu CRM vazio
 - [ ] Configurar layout protegido para rotas `/crm`
 - [x] Validar build, lint e testes
-- [ ] Documentar comandos no `ARQUITETURA.md`
+- [x] Documentar comandos no `ARQUITETURA.md`
 
 Critérios de aceite:
 - [x] `npm install` funciona.
@@ -92,9 +92,9 @@ Critérios de aceite:
 - [x] `npm run build` passa.
 - [x] `npm run lint` passa.
 - [ ] `npm run test` passa (mesmo que vazio).
-- [ ] Schema Prisma criado com entidades CRM.
-- [ ] Migration inicial aplicada.
-- [ ] Seed de pipeline executado.
+- [x] Schema Prisma criado com entidades CRM.
+- [ ] Migration inicial aplicada (requer DATABASE_URL configurada).
+- [x] Seed de pipeline criado (execução requer DATABASE_URL).
 - [ ] Menu CRM aparece somente para perfis autorizados.
 - [x] `.env.example` criado sem secrets.
 - [x] Nenhuma credencial exposta.

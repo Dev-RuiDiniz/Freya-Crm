@@ -24,7 +24,7 @@ O Freya deve nascer como produto/módulo independente em domínio de negócio, r
 
 - **Linguagem:** TypeScript (planejado)
 - **Framework:** Next.js com App Router (planejado)
-- **ORM:** Prisma (planejado)
+- **ORM:** Prisma 7 (configurado)
 - **Autenticação:** Supabase Auth (planejado)
 - **Testes:** Vitest (planejado)
 
@@ -39,8 +39,8 @@ O Freya deve nascer como produto/módulo independente em domínio de negócio, r
 
 - **Banco:** PostgreSQL (planejado)
 - **ORM / Query Builder:** Prisma (planejado)
-- **Migrations:** Prisma Migrate (planejado)
-- **Seeds:** Prisma Seed (planejado)
+- **Migrations:** Prisma Migrate (configurado, migration pendente)
+- **Seeds:** Prisma Seed (configurado)
 
 ### Infraestrutura
 
@@ -104,7 +104,9 @@ Freya-Crm/
 │           ├── permissions.ts
 │           └── queries.ts
 ├── prisma/
-│   └── schema.prisma
+│   ├── schema.prisma
+│   ├── seed.ts
+│   └── migrations/
 ├── tests/
 │   ├── unit/
 │   │   └── crm/
@@ -130,7 +132,7 @@ Freya-Crm/
 | `src/app/actions/` | Server Actions por domínio (crm-leads, crm-companies, etc.) |
 | `src/components/crm/` | Componentes React específicos do CRM |
 | `src/lib/crm/` | Regras de negócio, schemas Zod, queries, permissões e conversão |
-| `prisma/` | Schema Prisma e migrations |
+| `prisma/` | Schema Prisma, migrations e seeds |
 | `tests/` | Testes unitários (Vitest) e E2E (Playwright) |
 
 ---
